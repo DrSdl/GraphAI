@@ -1,0 +1,247 @@
+2018-05-01 20:55:39.340755: W c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\platform\cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE instructions, but these are available on your machine and could spe
+ed up CPU computations.
+2018-05-01 20:55:39.342755: W c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\platform\cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE2 instructions, but these are available on your machine and could sp
+eed up CPU computations.
+2018-05-01 20:55:39.343755: W c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\platform\cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE3 instructions, but these are available on your machine and could sp
+eed up CPU computations.
+2018-05-01 20:55:39.344755: W c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\platform\cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could
+speed up CPU computations.
+2018-05-01 20:55:39.346755: W c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\platform\cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could
+speed up CPU computations.
+2018-05-01 20:55:39.347755: W c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\platform\cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX instructions, but these are available on your machine and could spe
+ed up CPU computations.
+2018-05-01 20:55:39.880786: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\gpu\gpu_device.cc:887] Found device 0 with properties:
+name: Quadro K600
+major: 3 minor: 0 memoryClockRate (GHz) 0.8755
+pciBusID 0000:01:00.0
+Total memory: 962.38MiB
+Free memory: 955.31MiB
+2018-05-01 20:55:39.883786: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\gpu\gpu_device.cc:908] DMA: 0
+2018-05-01 20:55:39.884786: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\gpu\gpu_device.cc:918] 0:   Y
+2018-05-01 20:55:39.885786: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\gpu\gpu_device.cc:977] Creating TensorFlow device (/gpu:0) -> (device: 0, name: Quadro K600, pci bus id: 0000:01:00.0)
+Cost after epoch 0: 2.460560
+Cost after epoch 5: 0.384527
+2018-05-01 21:33:00.021751: W c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_allocator.cc:273] Allocator (GPU_0_bfc) ran out of memory trying to allocate 1.83GiB.  Current allocation summary follows.
+2018-05-01 21:33:00.062754: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_allocator.cc:643] Bin (256):      Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in u
+se in bin. 0B client-requested in use in bin.
+2018-05-01 21:33:00.064754: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_allocator.cc:643] Bin (512):      Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in u
+se in bin. 0B client-requested in use in bin.
+2018-05-01 21:33:00.065754: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:643] Bin (1024):     Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in u
+se in bin. 0B client-requested in use in bin.
+2018-05-01 21:33:00.077755: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:643] Bin (2048):     Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in u
+se in bin. 0B client-requested in use in bin.
+2018-05-01 21:33:00.079755: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:643] Bin (4096):     Total Chunks: 1, Chunks in use: 0 4.8KiB allocated for chunks. 4.7KiB client-requested for chunks.
+ 0B in use in bin. 0B client-requested in use in bin.
+2018-05-01 21:33:00.080755: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:643] Bin (8192):     Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in u
+se in bin. 0B client-requested in use in bin.
+2018-05-01 21:33:00.081755: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:643] Bin (16384):    Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in u
+se in bin. 0B client-requested in use in bin.
+2018-05-01 21:33:00.083755: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:643] Bin (32768):    Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in u
+se in bin. 0B client-requested in use in bin.
+2018-05-01 21:33:00.084755: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:643] Bin (65536):    Total Chunks: 1, Chunks in use: 0 108.3KiB allocated for chunks. 37.50MiB client-requested for chu
+nks. 0B in use in bin. 0B client-requested in use in bin.
+2018-05-01 21:33:00.085755: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:643] Bin (131072):   Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in u
+se in bin. 0B client-requested in use in bin.
+2018-05-01 21:33:00.086755: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:643] Bin (262144):   Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in u
+se in bin. 0B client-requested in use in bin.
+2018-05-01 21:33:00.088755: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:643] Bin (524288):   Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in u
+se in bin. 0B client-requested in use in bin.
+2018-05-01 21:33:00.089755: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:643] Bin (1048576):  Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in u
+se in bin. 0B client-requested in use in bin.
+2018-05-01 21:33:00.090755: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:643] Bin (2097152):  Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in u
+se in bin. 0B client-requested in use in bin.
+2018-05-01 21:33:00.092755: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:643] Bin (4194304):  Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in u
+se in bin. 0B client-requested in use in bin.
+2018-05-01 21:33:00.093755: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:643] Bin (8388608):  Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks. 0B in u
+se in bin. 0B client-requested in use in bin.
+2018-05-01 21:33:00.094755: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:643] Bin (16777216):         Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks.
+ 0B in use in bin. 0B client-requested in use in bin.
+2018-05-01 21:33:00.096756: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:643] Bin (33554432):         Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks.
+ 0B in use in bin. 0B client-requested in use in bin.
+2018-05-01 21:33:00.097756: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:643] Bin (67108864):         Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks.
+ 0B in use in bin. 0B client-requested in use in bin.
+2018-05-01 21:33:00.099756: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:643] Bin (134217728):        Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks.
+ 0B in use in bin. 0B client-requested in use in bin.
+2018-05-01 21:33:00.100756: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:643] Bin (268435456):        Total Chunks: 0, Chunks in use: 0 0B allocated for chunks. 0B client-requested for chunks.
+ 0B in use in bin. 0B client-requested in use in bin.
+2018-05-01 21:33:00.101756: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:660] Bin for 1.83GiB was 256.00MiB, Chunk State:
+2018-05-01 21:33:00.102756: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:678] Chunk at 0000000500540000 of size 1280
+2018-05-01 21:33:00.103756: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:678] Chunk at 0000000500540500 of size 256
+2018-05-01 21:33:00.104756: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:678] Chunk at 0000000500540600 of size 256
+2018-05-01 21:33:00.105756: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:678] Chunk at 0000000500540700 of size 256
+2018-05-01 21:33:00.106756: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:678] Chunk at 0000000500540800 of size 256
+2018-05-01 21:33:00.107756: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:678] Chunk at 0000000500540900 of size 256
+2018-05-01 21:33:00.108756: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:678] Chunk at 0000000500540A00 of size 256
+2018-05-01 21:33:00.109756: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:678] Chunk at 0000000500540B00 of size 1536
+2018-05-01 21:33:00.110756: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:678] Chunk at 0000000500541100 of size 2048
+2018-05-01 21:33:00.111756: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:678] Chunk at 0000000500541900 of size 115200
+2018-05-01 21:33:00.112757: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:678] Chunk at 000000050055DB00 of size 256
+2018-05-01 21:33:00.113757: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:678] Chunk at 000000050055DC00 of size 256
+2018-05-01 21:33:00.115757: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:678] Chunk at 000000050055DD00 of size 256
+2018-05-01 21:33:00.116757: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:678] Chunk at 000000050055DE00 of size 256
+2018-05-01 21:33:00.117757: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:678] Chunk at 000000050055DF00 of size 256
+2018-05-01 21:33:00.118757: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:678] Chunk at 000000050055E000 of size 256
+2018-05-01 21:33:00.118757: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:678] Chunk at 000000050055E100 of size 256
+2018-05-01 21:33:00.119757: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:678] Chunk at 000000050055E200 of size 256
+2018-05-01 21:33:00.120757: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:678] Chunk at 000000050055F600 of size 1792
+2018-05-01 21:33:00.121757: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:678] Chunk at 000000050057AE00 of size 256
+2018-05-01 21:33:00.122757: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:678] Chunk at 000000050057AF00 of size 256
+2018-05-01 21:33:00.122757: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:678] Chunk at 000000050057B000 of size 256
+2018-05-01 21:33:00.123757: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:678] Chunk at 000000050057B100 of size 1536
+2018-05-01 21:33:00.124757: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:678] Chunk at 000000050057B700 of size 1536
+2018-05-01 21:33:00.125757: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:678] Chunk at 000000050057BD00 of size 2048
+2018-05-01 21:33:00.126757: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:678] Chunk at 000000050057C500 of size 2048
+2018-05-01 21:33:00.126757: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:678] Chunk at 000000050057CD00 of size 115200
+2018-05-01 21:33:00.127757: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:678] Chunk at 0000000500598F00 of size 115200
+2018-05-01 21:33:00.128757: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:678] Chunk at 00000005005B5100 of size 256
+2018-05-01 21:33:00.129757: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:678] Chunk at 00000005005B5200 of size 256
+2018-05-01 21:33:00.130758: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:678] Chunk at 00000005005B5300 of size 1536
+2018-05-01 21:33:00.131758: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:678] Chunk at 00000005005B5900 of size 2048
+2018-05-01 21:33:00.132758: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:678] Chunk at 00000005005B6100 of size 115200
+2018-05-01 21:33:00.133758: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:678] Chunk at 00000005005D2300 of size 791403776
+2018-05-01 21:33:00.134758: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:687] Free at 000000050055E300 of size 4864
+2018-05-01 21:33:00.135758: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:687] Free at 000000050055FD00 of size 110848
+2018-05-01 21:33:00.136758: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:693]      Summary of in-use Chunks by size:
+2018-05-01 21:33:00.137758: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:696] 19 Chunks of size 256 totalling 4.8KiB
+2018-05-01 21:33:00.137758: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:696] 1 Chunks of size 1280 totalling 1.3KiB
+2018-05-01 21:33:00.138758: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:696] 4 Chunks of size 1536 totalling 6.0KiB
+2018-05-01 21:33:00.140758: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:696] 1 Chunks of size 1792 totalling 1.8KiB
+2018-05-01 21:33:00.141758: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:696] 4 Chunks of size 2048 totalling 8.0KiB
+2018-05-01 21:33:00.142758: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:696] 4 Chunks of size 115200 totalling 450.0KiB
+2018-05-01 21:33:00.143758: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:696] 1 Chunks of size 791403776 totalling 754.74MiB
+2018-05-01 21:33:00.144758: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:700] Sum Total of in-use chunks: 755.20MiB
+2018-05-01 21:33:00.145758: I c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:702] Stats:
+Limit:                   792002560
+InUse:                   791886848
+MaxInUse:                791891712
+NumAllocs:                   31551
+MaxAllocSize:            791403776
+
+2018-05-01 21:33:00.148759: W c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\common_runtime\bfc_al
+locator.cc:277] **********************************************************************************************xxxxxx
+2018-05-01 21:33:00.149759: W c:\tf_jenkins\home\workspace\release-win\device\gpu\os\windows\tensorflow\core\framework\op_kernel.c
+c:1152] Resource exhausted: OOM when allocating tensor with shape[200,480,640,8]
+Traceback (most recent call last):
+  File "C:\ProgramData\Anaconda3\envs\tf_2\lib\site-packages\tensorflow\python\client\session.py", line 1039, in _do_call
+    return fn(*args)
+  File "C:\ProgramData\Anaconda3\envs\tf_2\lib\site-packages\tensorflow\python\client\session.py", line 1021, in _run_fn
+    status, run_metadata)
+  File "C:\ProgramData\Anaconda3\envs\tf_2\lib\contextlib.py", line 66, in __exit__
+    next(self.gen)
+  File "C:\ProgramData\Anaconda3\envs\tf_2\lib\site-packages\tensorflow\python\framework\errors_impl.py", line 466, in raise_excep
+tion_on_not_ok_status
+    pywrap_tensorflow.TF_GetCode(status))
+tensorflow.python.framework.errors_impl.ResourceExhaustedError: OOM when allocating tensor with shape[200,480,640,8]
+         [[Node: Conv2D = Conv2D[T=DT_FLOAT, data_format="NHWC", padding="SAME", strides=[1, 1, 1, 1], use_cudnn_on_gpu=true, _dev
+ice="/job:localhost/replica:0/task:0/gpu:0"](_recv_Placeholder_0/_23, W1/read)]]
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "graph_tf_category_05.py", line 267, in <module>
+    _, _, parameters = model3L(X_train, Y_train, X_test, Y_test)
+  File "graph_tf_category_05.py", line 201, in model3L
+    test_accuracy = accuracy.eval({X: X_test, Y: Y_test})
+  File "C:\ProgramData\Anaconda3\envs\tf_2\lib\site-packages\tensorflow\python\framework\ops.py", line 569, in eval
+    return _eval_using_default_session(self, feed_dict, self.graph, session)
+  File "C:\ProgramData\Anaconda3\envs\tf_2\lib\site-packages\tensorflow\python\framework\ops.py", line 3741, in _eval_using_defaul
+t_session
+    return session.run(tensors, feed_dict)
+  File "C:\ProgramData\Anaconda3\envs\tf_2\lib\site-packages\tensorflow\python\client\session.py", line 778, in run
+    run_metadata_ptr)
+  File "C:\ProgramData\Anaconda3\envs\tf_2\lib\site-packages\tensorflow\python\client\session.py", line 982, in _run
+    feed_dict_string, options, run_metadata)
+  File "C:\ProgramData\Anaconda3\envs\tf_2\lib\site-packages\tensorflow\python\client\session.py", line 1032, in _do_run
+    target_list, options, run_metadata)
+  File "C:\ProgramData\Anaconda3\envs\tf_2\lib\site-packages\tensorflow\python\client\session.py", line 1052, in _do_call
+    raise type(e)(node_def, op, message)
+tensorflow.python.framework.errors_impl.ResourceExhaustedError: OOM when allocating tensor with shape[200,480,640,8]
+         [[Node: Conv2D = Conv2D[T=DT_FLOAT, data_format="NHWC", padding="SAME", strides=[1, 1, 1, 1], use_cudnn_on_gpu=true, _dev
+ice="/job:localhost/replica:0/task:0/gpu:0"](_recv_Placeholder_0/_23, W1/read)]]
+
+Caused by op 'Conv2D', defined at:
+  File "graph_tf_category_05.py", line 267, in <module>
+    _, _, parameters = model3L(X_train, Y_train, X_test, Y_test)
+  File "graph_tf_category_05.py", line 146, in model3L
+    Z3 = forward_propagation_model3L_01(X, parameters)
+  File "graph_tf_category_05.py", line 77, in forward_propagation_model3L_01
+    Z1 = tf.nn.conv2d(X, W1, strides=[1, 1, 1, 1], padding='SAME')
+  File "C:\ProgramData\Anaconda3\envs\tf_2\lib\site-packages\tensorflow\python\ops\gen_nn_ops.py", line 403, in conv2d
+    data_format=data_format, name=name)
+  File "C:\ProgramData\Anaconda3\envs\tf_2\lib\site-packages\tensorflow\python\framework\op_def_library.py", line 768, in apply_op
+
+    op_def=op_def)
+  File "C:\ProgramData\Anaconda3\envs\tf_2\lib\site-packages\tensorflow\python\framework\ops.py", line 2336, in create_op
+    original_op=self._default_original_op, op_def=op_def)
+  File "C:\ProgramData\Anaconda3\envs\tf_2\lib\site-packages\tensorflow\python\framework\ops.py", line 1228, in __init__
+    self._traceback = _extract_stack()
+
+ResourceExhaustedError (see above for traceback): OOM when allocating tensor with shape[200,480,640,8]
+         [[Node: Conv2D = Conv2D[T=DT_FLOAT, data_format="NHWC", padding="SAME", strides=[1, 1, 1, 1], use_cudnn_on_gpu=true, _dev
+ice="/job:localhost/replica:0/task:0/gpu:0"](_recv_Placeholder_0/_23, W1/read)]]
