@@ -125,15 +125,15 @@ for k in range(0,N):
     characterSimple=np.array([co])
 
     if co==1:
-        a=rnd.uniform(-1,1)
-        c=rnd.uniform(0,5)
+        a=rnd.uniform(-10,10)
+        c=rnd.uniform(0,10)
         plt.axis((0,10,-10,10))
         plt.plot(t1, flin(t1,a,c), 'k')
         AppendData(myfile,k,co,a,c,0,0)
         character=np.array([co,a,c,0,0])
     elif co==2:
-        a=rnd.uniform(-5,+5)
-        b=rnd.uniform(-a,8)
+        a=rnd.uniform(0,+10)
+        b=rnd.uniform(-10,a-1)
         while check2para(a,b) == 0:
             a=rnd.uniform(-5,+5)
             b=rnd.uniform(-a,8)

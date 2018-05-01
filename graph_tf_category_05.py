@@ -3,7 +3,7 @@ import numpy as np
 import h5py
 import matplotlib.pyplot as plt
 # necessaty for pure ssh connection
-#plt.switch_backend('agg')
+# plt.switch_backend('agg')
 # ----------------------------
 import scipy
 from PIL import Image
@@ -15,7 +15,9 @@ from sys import exit
 
 np.random.seed(2018)
 
+# adapted from "https://github.com/JudasDie/deeplearning.ai/blob/master/Convolutional%20Neural%20Networks/week1/Convolution%2Bmodel%2B-%2BApplication%2B-%2Bv1.ipynb"
 
+# create variables that contain the image and the classification data
 def create_placeholders(n_H0, n_W0, n_C0, n_y):
     
     ## Placeholder creation for tensorflow
@@ -41,17 +43,20 @@ def initialize_parameters():
     ## parameters -- a dictionary of tensors containing W1, W2
 
     tf.set_random_seed(2018)                              
+    
+    ## W1 and W2 are the "filters": filter_height, filter_width, in_channels, out_channels
 
     W1 = tf.get_variable("W1", [4, 4, 3, 8], initializer=tf.contrib.layers.xavier_initializer(seed=0))
     W2 = tf.get_variable("W2", [2, 2, 8, 16], initializer=tf.contrib.layers.xavier_initializer(seed=0))
 
+    ## attemtion: "Id" has to be set to the number of classes we want to identify
     parameters = {"W1": W1,
                   "W2": W2,
                   "Id": 6}
     
     return parameters
 
-def forward_propagation(X, parameters):
+def forward_propagation_model3L_01(X, parameters):
     
     ## Default forward propagation model:
     ## CONV2D -> RELU -> MAXPOOL -> CONV2D -> RELU -> MAXPOOL -> FLATTEN -> FULLYCONNECTED
@@ -85,7 +90,6 @@ def forward_propagation(X, parameters):
     # FULLY-CONNECTED without non-linear activation function 
     # 6 neurons in output layer. 
     Z3 = tf.contrib.layers.fully_connected(P, N1, activation_fn=None)
-    ### END CODE HERE ###
 
     return Z3
 
@@ -103,7 +107,7 @@ def compute_cost(Z3, Y):
    
     return cost
 
-def model(X_train, Y_train, X_test, Y_test, learning_rate=0.009,
+def model3L(X_train, Y_train, X_test, Y_test, learning_rate=0.009,
           num_epochs=10, minibatch_size=4, print_cost=True):
     
     ## Implements a three-layer ConvNet in Tensorflow:
@@ -139,7 +143,7 @@ def model(X_train, Y_train, X_test, Y_test, learning_rate=0.009,
     parameters = initialize_parameters()
     
     # Forward propagation: Build the forward propagation in the tensorflow graph
-    Z3 = forward_propagation(X, parameters)
+    Z3 = forward_propagation_model3L_01(X, parameters)
     
     # Cost function: Add cost function to tensorflow graph
     cost = compute_cost(Z3, Y)
@@ -168,11 +172,7 @@ def model(X_train, Y_train, X_test, Y_test, learning_rate=0.009,
 
                 # Select a minibatch
                 (minibatch_X, minibatch_Y) = minibatch
-                # IMPORTANT: The line that runs the graph on a minibatch.
-                # Run the session to execute the optimizer and the cost, the feedict should contain a minibatch for (X,Y).
-                ### START CODE HERE ### (1 line)
                 _ , temp_cost = sess.run([optimizer, cost], feed_dict={X:minibatch_X, Y:minibatch_Y})
-                ### END CODE HERE ###
                 
                 minibatch_cost += temp_cost / num_minibatches
                 
@@ -217,7 +217,6 @@ def model(X_train, Y_train, X_test, Y_test, learning_rate=0.009,
         return train_accuracy, test_accuracy, parameters
 
 # Loading the data 
-##X_train_orig, Y_train_orig, X_test_orig, Y_test_orig, classes = load_dataset()
 print("Loading training images")
 X_train_orig = load_graph_dataset('GraphTrainData.hdf5')
 print("Loading training labels")
@@ -227,12 +226,14 @@ X_test_orig = load_graph_dataset('GraphTestData.hdf5')
 print("Loading testing labels")
 Y_test_orig = load_chara_dataset('GraphTestIds.hdf5')
 
+# get familiar with the data and shape
 index = 4
 plt.imshow(X_train_orig[index])
 plt.show()
 
 Y_train_orig = Y_train_orig.T
 Y_test_orig = Y_test_orig.T
+
 print(Y_test_orig)
 print("Train sample properties: ",index)
 print(type(X_train_orig)," ",X_train_orig.shape)
@@ -263,6 +264,6 @@ X, Y = create_placeholders(480, 640, 3, 6)
 tf.reset_default_graph()
 
 # start network optimisation --------------------------------------------------
-_, _, parameters = model(X_train, Y_train, X_test, Y_test)
+_, _, parameters = model3L(X_train, Y_train, X_test, Y_test)
 
 
