@@ -56,6 +56,8 @@ def initialize_parameters():
     
     return parameters
 
+# Implements a three-layer ConvNet in Tensorflow:
+# CONV2D -> RELU -> MAXPOOL -> CONV2D -> RELU -> MAXPOOL -> FLATTEN -> FULLYCONNECTED
 def forward_propagation_model3L_01(X, parameters):
     
     ## Default forward propagation model:
@@ -107,17 +109,17 @@ def compute_cost(Z3, Y):
    
     return cost
 
+# naive model loading all the training and testing data in to memory
 def model3L(X_train, Y_train, X_test, Y_test, learning_rate=0.009,
           num_epochs=10, minibatch_size=4, print_cost=True):
     
-    ## Implements a three-layer ConvNet in Tensorflow:
-    ## CONV2D -> RELU -> MAXPOOL -> CONV2D -> RELU -> MAXPOOL -> FLATTEN -> FULLYCONNECTED
+    ## uses forward_propagation_model3L_01
     
     ## Arguments:
     ## X_train -- training set, of shape (None, 480, 640, 3)
-    ## Y_train -- test set, of shape (None, n_y)
-    ## X_test -- training set, of shape (None, 480, 640, 3)
-    ## Y_test -- test set, of shape (None, n_y)
+    ## Y_train -- training set labels, of shape (None, n_y)
+    ## X_test -- test set, of shape (None, 480, 640, 3)
+    ## Y_test -- test set labels, of shape (None, n_y)
     ## learning_rate -- learning rate of the optimization
     ## num_epochs -- number of epochs of the optimization loop
     ## minibatch_size -- size of a minibatch
