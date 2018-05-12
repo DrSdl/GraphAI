@@ -116,7 +116,8 @@ def AppendData(myname,id,co,a,b,c,d):
 #        for line in data:
 #            writer.writerow(line)
 
-rnd.seed(2018)
+rnd.seed(2018) #training
+#rnd.seed(2006) #testing
 N=200
 
 # decide plot range
@@ -201,7 +202,7 @@ for k in range(0,N):
 
 
     #plt.show()
-    # plt.savefig('lin' + str(k) +'.jpg') + for debugging purposes
+    # plt.savefig('lin' + str(k) +'.jpg') # for debugging purposes
     # see: https://stackoverflow.com/questions/7821518/matplotlib-save-plot-to-numpy-array
     #      https://matplotlib.org/examples/pylab_examples/agg_buffer.html
     #      https://media.readthedocs.org/pdf/h5py/latest/h5py.pdf

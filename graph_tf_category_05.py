@@ -132,7 +132,8 @@ def model3L(X_train, Y_train, X_test, Y_test, learning_rate=0.009,
     ops.reset_default_graph()                         # to be able to rerun the model without overwriting tf variables
     tf.set_random_seed(2018)                          # to keep results consistent (tensorflow seed)
     seed = 3                                          # to keep results consistent (numpy seed)
-    (m, n_H0, n_W0, n_C0) = X_train.shape             
+    (m, n_H0, n_W0, n_C0) = X_train.shape
+    (mt,n_H0t,n_W0t,n_C0t) = X_test.shape             
     n_y = Y_train.shape[1]                            
     costs = []                                        # To keep track of the cost
     
@@ -198,8 +199,8 @@ def model3L(X_train, Y_train, X_test, Y_test, learning_rate=0.009,
         # Calculate accuracy on the test set
         accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
 
-        test_accuracy = accuracy.eval({X: X_test, Y: Y_test})
-        print("Test Accuracy:", test_accuracy)
+        #test_accuracy = accuracy.eval({X: X_test, Y: Y_test})
+        #print("Test Accuracy:", test_accuracy)
 
         # Too big for memory...
         #train_accuracy = accuracy.eval({X: X_train, Y: Y_train})
@@ -213,7 +214,21 @@ def model3L(X_train, Y_train, X_test, Y_test, learning_rate=0.009,
             train_accuracy += temp_accuracy / num_minibatches
 
         print("Train Accuracy:", train_accuracy)
-                
+    
+        minibatches_test = random_mini_batches(X_test, Y_test, minibatch_size, 2018)
+        num_minibatches_test = int(mt / minibatch_size)
+
+        test_accuracy = 0.0
+        for minibatch in minibatches_test:
+            (minibatch_X, minibatch_Y) = minibatch
+            temp_accuracy = accuracy.eval({X: minibatch_X, Y: minibatch_Y})
+
+            test_accuracy += temp_accuracy / num_minibatches_test
+
+        print("Test Accuracy:", test_accuracy)
+
+
+        
         return train_accuracy, test_accuracy, parameters
 
 # Loading the data 
