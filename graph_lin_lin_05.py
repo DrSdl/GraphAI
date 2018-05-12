@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 # necessaty for pure ssh connection
 #plt.switch_backend('agg')
 # ----------------------------
+# 12052018: added experimental data point plotting
+
 import matplotlib.image as mpimg
 import random as rnd
 from pathlib import Path
@@ -109,6 +111,23 @@ def AppendData(myname,id,co,a,b,c,d):
         f.write("\n")
     f.close()
 
+# write file with experimental data points
+def AppendPoints(myname, xline, yline):
+    my_file = Path('./%s' % myname)
+    if my_file.is_file():
+        f = open('./%s' % myname, 'a')
+        f.write(str(xline))
+        f.write("\n")
+        f.write(str(yline))
+        f.write("\n")
+    else:
+        f = open('./%s' % myname, 'w')
+        f.write(str(xline))
+        f.write("\n")
+        f.write(str(yline))
+        f.write("\n")
+    f.close()
+
   
 #import csv
 #with open(<path to output_csv>, "wb") as csv_file:
@@ -126,6 +145,11 @@ x1=10.01
 t1 = np.arange(x0, x1, (x1-x0)/100.0)
 
 myfile="GraphAIrun.csv"
+mypoints="GraphAIpnt.csv"
+# 0: no experimental data points
+# 1: experimentl data points are added
+experi=1
+style=['o','v','^','s','D','*','+','x']
 
 for k in range(0,N):
     
@@ -144,7 +168,7 @@ for k in range(0,N):
     # that curves fit into a given standard box.
     # This standard box is assumed to be [0,10]x[-10,10].
     co=rnd.randint(1,5) 
-    # co=5 # for debugging purposes
+    #co=1 # for debugging purposes
     characterSimple=np.array([co])
 
     if co==1:
@@ -154,6 +178,12 @@ for k in range(0,N):
         plt.plot(t1, flin(t1,a,c), 'k')
         AppendData(myfile,k,co,a,c,0,0)
         character=np.array([co,a,c,0,0])
+        if experi==1 :
+            Npoints=np.random.randint(5,30)
+            Nxlocat=10.0*np.random.sample(Npoints)
+            Nylocat=flin(Nxlocat,a,c) + np.random.normal(0,2,Npoints)
+            plt.plot(Nxlocat, Nylocat, rnd.sample(style,1)[0])
+            AppendPoints(mypoints,Nxlocat,Nylocat)
     elif co==2:
         a=rnd.uniform(0,+10)
         b=rnd.uniform(-10,a-1)
@@ -165,6 +195,12 @@ for k in range(0,N):
         plt.plot(t1, fquad(t1,a,b,c), 'k')
         AppendData(myfile,k,co,a,b,c,0)
         character=np.array([co,a,b,c,0])
+        if experi==1 :
+            Npoints=np.random.randint(5,30)
+            Nxlocat=10.0*np.random.sample(Npoints)
+            Nylocat=fquad(Nxlocat,a,b,c) + np.random.normal(0,2,Npoints)
+            plt.plot(Nxlocat, Nylocat, rnd.sample(style,1)[0])
+            AppendPoints(mypoints,Nxlocat,Nylocat)
     elif co==3:
         a=rnd.uniform(0,+10)
         b=rnd.uniform(-1,a)
@@ -179,6 +215,12 @@ for k in range(0,N):
         plt.plot(t1, fcubic(t1,a,b,c,d), 'k')
         AppendData(myfile,k,co,a,b,c,d)
         character=np.array([co,a,b,c,d])
+        if experi==1 :
+            Npoints=np.random.randint(5,30)
+            Nxlocat=10.0*np.random.sample(Npoints)
+            Nylocat=fcubic(Nxlocat,a,b,c,d) + np.random.normal(0,2,Npoints)
+            plt.plot(Nxlocat, Nylocat, rnd.sample(style,1)[0])
+            AppendPoints(mypoints,Nxlocat,Nylocat)
     elif co==4:
         a=rnd.uniform(-0.5,0.5)
         b=rnd.uniform(-1.0,1.0)
@@ -191,6 +233,12 @@ for k in range(0,N):
         plt.plot(t1, fexp(t1,a,b,c), 'k')
         AppendData(myfile,k,co,a,b,c,0)
         character=np.array([co,a,b,c,0])  
+        if experi==1 :
+            Npoints=np.random.randint(5,30)
+            Nxlocat=10.0*np.random.sample(Npoints)
+            Nylocat=fexp(Nxlocat,a,b,c) + np.random.normal(0,2,Npoints)
+            plt.plot(Nxlocat, Nylocat, rnd.sample(style,1)[0])
+            AppendPoints(mypoints,Nxlocat,Nylocat)
     elif co==5:
         a=rnd.uniform(-5,5)
         c=rnd.uniform(-5,5)
@@ -199,10 +247,15 @@ for k in range(0,N):
         plt.plot(t1, flog(t1,a,c), 'k')
         AppendData(myfile,k,co,a,c,0,0)
         character=np.array([co,a,c,0,0]) 
-
+        if experi==1 :
+            Npoints=np.random.randint(5,30)
+            Nxlocat=10.0*np.random.sample(Npoints)
+            Nylocat=flog(Nxlocat,a,c) + np.random.normal(0,2,Npoints)
+            plt.plot(Nxlocat, Nylocat, rnd.sample(style,1)[0])
+            AppendPoints(mypoints,Nxlocat,Nylocat)
 
     #plt.show()
-    # plt.savefig('lin' + str(k) +'.jpg') # for debugging purposes
+    plt.savefig('lin' + str(k) +'.jpg') # for debugging purposes
     # see: https://stackoverflow.com/questions/7821518/matplotlib-save-plot-to-numpy-array
     #      https://matplotlib.org/examples/pylab_examples/agg_buffer.html
     #      https://media.readthedocs.org/pdf/h5py/latest/h5py.pdf
