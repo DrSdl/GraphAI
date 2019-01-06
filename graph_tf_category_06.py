@@ -2,10 +2,15 @@ import math
 import numpy as np
 import h5py
 import matplotlib.pyplot as plt
-
 # necessaty for pure ssh connection
 # plt.switch_backend('agg')
 # ----------------------------
+# ########################################################
+# 
+# Neural Network TRAINER
+# (c) 2019 DrSdl
+# 
+# ########################################################
 
 import scipy
 from PIL import Image
@@ -54,7 +59,7 @@ def initialize_parameters():
     W1 = tf.get_variable("W1", [4, 4, 3, 8], initializer=tf.contrib.layers.xavier_initializer(seed=0))
     W2 = tf.get_variable("W2", [2, 2, 8, 16], initializer=tf.contrib.layers.xavier_initializer(seed=0))
 
-    ## attemtion: "Id" has to be set to the number of classes we want to identify
+    ## attention: "Id" has to be set to the number of classes we want to identify
     parameters = {"W1": W1,
                   "W2": W2,
                   "Id": 6}
@@ -75,7 +80,9 @@ def forward_propagation_model3L_01(X, parameters):
 
     ## Outputs:
     ## Z3 -- the output of the last LINEAR unit
-    
+    ##
+    ## explanations: http://cs231n.github.io/convolutional-networks/
+    ##
     W1 = parameters['W1']
     W2 = parameters['W2']
     N1 = parameters['Id']
@@ -96,7 +103,7 @@ def forward_propagation_model3L_01(X, parameters):
     P = tf.contrib.layers.flatten(P2)
     # FULLY-CONNECTED without non-linear activation function 
     # 6=N1 neurons in output layer. 
-    Z3 = tf.contrib.layers.fully_connected(P, N1, activation_fn=None)
+    Z3 = tf.contrib.layers.fully_connected(P, N1, activation_fn=None) # name='Z3_tensor'
 
     return Z3
 
@@ -121,7 +128,7 @@ def GetTrainSamples(filename):
     anzahl=len(liste)
     return anzahl
 
-# naive model loading all the training and testing data in to memory
+# naive model loading all the training and testing data into memory at once
 def model3L(X_train_name, Y_train_name, X_test, Y_test, learning_rate=0.009,
           num_epochs=10, minibatch_size=4, print_cost=True):
     
@@ -245,9 +252,9 @@ def model3L(X_train_name, Y_train_name, X_test, Y_test, learning_rate=0.009,
         
         return train_accuracy, test_accuracy, parameters
 
-# model which loads a large training data set step by step into memory, i.e. for each minibatch
+# model which loads a large training data-set step by step into memory, i.e. for each minibatch
 def model3L_batchFile(X_train_name, Y_train_name, X_test, Y_test, learning_rate=0.009,
-          num_epochs=10, minibatch_size=4, print_cost=True):
+          num_epochs=2, minibatch_size=4, print_cost=True):
     
     ## uses forward_propagation_model3L_01
     
@@ -274,10 +281,16 @@ def model3L_batchFile(X_train_name, Y_train_name, X_test, Y_test, learning_rate=
     # (m, n_H0, n_W0, n_C0) = X_train.shape
     m=GetTrainSamples(X_train_name) # get total number of training samples in hdf5 file
     print("Number of training cases: ",m)
+    # number of training images randomly choosen from data set per iteration, i.e. epoch
     m_macro=100
     print("Number of macro training cases: ",m_macro)
     print("Number of micro training cases: ",minibatch_size)
-
+    #
+    # get the relevant dimensions from the test data (which fits completely into memory
+    # mt: number of examples
+    # n_H0t, n_W0t: height and width in pixels 
+    # n_C0t: depth of colors
+    # n_y: number of criteria
     (mt,n_H0t,n_W0t,n_C0t) = X_test.shape             
     n_y = Y_test.shape[1]                            
     costs = []                                        # To keep track of the cost
@@ -299,7 +312,10 @@ def model3L_batchFile(X_train_name, Y_train_name, X_test, Y_test, learning_rate=
     
     # Initialize all the variables globally
     init = tf.global_variables_initializer()
-     
+
+    # Add ops to save and restore all the variables
+    saver = tf.train.Saver()
+ 
     # tensorflow graph starts calculation
     with tf.Session() as sess:
         
@@ -320,6 +336,9 @@ def model3L_batchFile(X_train_name, Y_train_name, X_test, Y_test, learning_rate=
             minibatch_cost = 0.
             num_minibatches = int(m_macro / minibatch_size) # number of minibatches of size minibatch_size in the train set
    
+            # e.g. if X_train has a total length of 400 and mini_batch_size is form then we create 100 mini batches
+            # the ordering of each minibatch is changed from epoch to epoch by changing the seed for the permutation
+            # operations
             minibatches = random_mini_batches(X_train, Y_train, minibatch_size, seed)
 
             for minibatch in minibatches:
@@ -343,7 +362,8 @@ def model3L_batchFile(X_train_name, Y_train_name, X_test, Y_test, learning_rate=
         plt.ylabel('cost')
         plt.xlabel('iterations (per tens)')
         plt.title("Learning rate =" + str(learning_rate))
-        plt.show()
+        #plt.show()
+        plt.savefig("Learning_rate.svg")
 
         # Calculate the correct predictions
         predict_op = tf.argmax(Z3, 1)
@@ -367,7 +387,9 @@ def model3L_batchFile(X_train_name, Y_train_name, X_test, Y_test, learning_rate=
             train_accuracy += temp_accuracy / num_minibatches
 
         print("Train Accuracy:", train_accuracy)
-    
+        save_path = saver.save(sess, "./model3L_01.ckpt")
+        print("Model saved in path: %s" % save_path)
+
         minibatches_test = random_mini_batches(X_test, Y_test, minibatch_size, 2018)
         num_minibatches_test = int(mt / minibatch_size)
 
@@ -400,7 +422,7 @@ def model3L_batchFile(X_train_name, Y_train_name, X_test, Y_test, learning_rate=
 #Y_train = convert_to_one_hot(Y_train_orig, NumCategories).T
 
 
-# Loading the testing data 
+# Loading the testing data and display size #########################
 print("Loading testing images")
 X_test_orig = load_graph_dataset('GraphTestData.hdf5')
 print("Loading testing labels")
@@ -411,16 +433,21 @@ index=4
 print(Y_test_orig)
 print(type(X_test_orig)," ",X_test_orig.shape)
 print(type(X_test_orig[index])," ",X_test_orig[index].shape)
-print(X_test_orig[index])
+#print(X_test_orig[index])
 print(type(Y_test_orig)," ",Y_test_orig.shape)
 #exit(0)
+# ###################################################################
+
 
 # Number of categories to be trained
 NumCategories=6
 
 X_test = X_test_orig/255.
 Y_test = convert_to_one_hot(Y_test_orig, NumCategories).T
+print("make one hot encondings")
+print(type(Y_test)," ",Y_test.shape)
 
+# Start ##############################################################
 conv_layers = {}
 X, Y = create_placeholders(480, 640, 3, 6)
 
@@ -429,4 +456,6 @@ tf.reset_default_graph()
 # start network optimisation --------------------------------------------------
 _, _, parameters = model3L_batchFile('GraphTrainData.hdf5', 'GraphTrainIds.hdf5', X_test, Y_test)
 
-
+# print graph operations
+#for i in tf.get_default_graph().get_operations():
+#    print(i.name)
