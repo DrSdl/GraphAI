@@ -2,9 +2,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 # necessaty for pure ssh connection
 #plt.switch_backend('agg')
-# ----------------------------
+# ########################################################
+# 
+# GENERATOR for all the training and testing graphs
 # 12052018: added experimental data point plotting
-
+# (c) 2019 DrSdl
+# 
+# ########################################################
 import matplotlib.image as mpimg
 import random as rnd
 from pathlib import Path
@@ -12,14 +16,29 @@ import h5py
 
 # Either generate Training Data or Testing Data
 # Change random seed and sample number accordingly
-fhdf5 = h5py.File('GraphTrainData.hdf5', 'w')
-ghdf5 = h5py.File('GraphTrainIds.hdf5', 'w')
+########################################################
+# generate Training Data init
+#fhdf5 = h5py.File('GraphTrainData.hdf5', 'w')
+#ghdf5 = h5py.File('GraphTrainIds.hdf5', 'w')
+#myfile="GraphAIrun.csv"
+#mypoints="GraphAIpnt.csv"
+#rnd.seed(2018) #training
+#N=20000 # number of graph images
+########################################################
 
-#fhdf5 = h5py.File('GraphTestData.hdf5', 'w')
-#ghdf5 = h5py.File('GraphTestIds.hdf5', 'w')
+########################################################
+# generate Testing Data init
+fhdf5 = h5py.File('GraphTestData.hdf5', 'w')
+ghdf5 = h5py.File('GraphTestIds.hdf5', 'w')
+myfile="GraphAItest.csv"
+mypoints="GraphAIpnttest.csv"
+rnd.seed(2006) #testing
+N=100  # number of graph images
+########################################################
+
 
 # -------------------------------------------
-# The GraphAI project (c) 2017-2018 Dr. Sdl
+# The GraphAI project (c) 2017-2019 Dr. Sdl
 # 070218 simple, constrained graph generation
 # -------------------------------------------
 
@@ -69,16 +88,21 @@ def check3para(a,b,c,d):
     return ret
 
 
-# do some sanity checks if expplot makes sense, i.e. slope of function not too small
+# do some sanity checks if expplot makes sense, i.e. slope of function not too small at zero crossing
 def check4para(a,b,c):
     ret=0
     r1=a*b
-    if (abs(a*b)>0.1) :
+    if (abs(a*b)>0.3) :
         ret=1
     return ret
 
-
+##################################################
 # write file with graph target information
+# the ID data consists of:
+# id: number of graph
+# co: type of graph
+# a,b,c,d: parameters of function
+##################################################
 def AppendData(myname,id,co,a,b,c,d):
     my_file = Path('./%s' % myname)
     if my_file.is_file():
@@ -111,7 +135,10 @@ def AppendData(myname,id,co,a,b,c,d):
         f.write("\n")
     f.close()
 
+##################################################
 # write file with experimental data points
+# the data for experimental points consists of:
+##################################################
 def AppendPoints(myname, xline, yline):
     my_file = Path('./%s' % myname)
     if my_file.is_file():
@@ -135,21 +162,20 @@ def AppendPoints(myname, xline, yline):
 #        for line in data:
 #            writer.writerow(line)
 
-rnd.seed(2018) #training
-#rnd.seed(2006) #testing
-N=200
 
 # decide plot range
 x0=0.01
 x1=10.01
 t1 = np.arange(x0, x1, (x1-x0)/100.0)
 
-myfile="GraphAIrun.csv"
-mypoints="GraphAIpnt.csv"
+###########################################################
+# Switch for experimental data points
 # 0: no experimental data points
 # 1: experimentl data points are added
-experi=1
-style=['o','v','^','s','D','*','+','x']
+experi=0
+style=['o','v','^','s','D','*','+','x'] # data point markers
+###########################################################
+
 
 for k in range(0,N):
     
@@ -168,8 +194,15 @@ for k in range(0,N):
     # that curves fit into a given standard box.
     # This standard box is assumed to be [0,10]x[-10,10].
     co=rnd.randint(1,5) 
-    #co=1 # for debugging purposes
+    #co=4 # for debugging purposes
+    #######################################################
+    # in simple training scenarios we only want to classify
+    # the graph type => "characterSimple" array
+    # in a more complete approach we want to identify
+    # graph type and graph parameters simultaneously => "character" array
     characterSimple=np.array([co])
+    # attention: swap characterSimple with character at EOF!
+    #######################################################
 
     if co==1:
         a=rnd.uniform(-10,10)
@@ -254,15 +287,15 @@ for k in range(0,N):
             plt.plot(Nxlocat, Nylocat, rnd.sample(style,1)[0])
             AppendPoints(mypoints,Nxlocat,Nylocat)
 
-    #plt.show()
-    plt.savefig('lin' + str(k) +'.jpg') # for debugging purposes
+    # plt.show()
+    # plt.savefig('lin' + str(k) +'.jpg') # for debugging purposes save figure
     # see: https://stackoverflow.com/questions/7821518/matplotlib-save-plot-to-numpy-array
     #      https://matplotlib.org/examples/pylab_examples/agg_buffer.html
     #      https://media.readthedocs.org/pdf/h5py/latest/h5py.pdf
     fig.canvas.draw()
     #print(fig.canvas.tostring_rgb())
     image_data = np.fromstring(fig.canvas.tostring_rgb(), dtype=np.uint8, sep='')
-    # laternative data preparation
+    # aternative data preparation
     #image_data = np.fromstring(fig.canvas.tostring_rgb())
     #ncols, nrows = fig.canvas.get_width_height()
     #image_data = np.fromstring(image_data, dtype=np.uint8).reshape(nrows, ncols, 3)
