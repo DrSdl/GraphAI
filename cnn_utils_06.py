@@ -6,11 +6,18 @@ import tensorflow as tf
 from tensorflow.python.framework import ops
 import random as zufall
 
+# ########################################################
+# 
+# Helper functions for GraphAI
+# (c) 2019 DrSdl
+# 
+# ########################################################
+
+
 # adapted from "https://github.com/JudasDie/deeplearning.ai/blob/master/Convolutional%20Neural%20Networks/week1/cnn_utils.py"
 # 140418: created function "load_graph_dataset"
 #         created function "load_chara_dataset"
 # 12052018: added microbatch reading from harddisk instead from memory... needed for very large training sets
-
 
 def load_dataset():
     train_dataset = h5py.File('datasets/train_signs.h5', "r")
@@ -120,8 +127,8 @@ def load_chara_dataset_batch(filename, seed, macro_length):
     #print(train_set)
     return train_set
 
-
-
+# create mini-batches 
+# first the arrays are shuffled randomly and then packaged into batches of "mini_batch_size"
 def random_mini_batches(X, Y, mini_batch_size = 64, seed = 0):
     """
     Creates a list of random minibatches from (X, Y)
@@ -130,7 +137,7 @@ def random_mini_batches(X, Y, mini_batch_size = 64, seed = 0):
     X -- input data, of shape (input size, number of examples) (m, Hi, Wi, Ci)
     Y -- true "label" vector (containing 0 if cat, 1 if non-cat), of shape (1, number of examples) (m, n_y)
     mini_batch_size - size of the mini-batches, integer
-    seed -- this is only for the purpose of grading, so that you're "random minibatches are the same as ours.
+    seed -- make results repeatable
     
     Returns:
     mini_batches -- list of synchronous (mini_batch_X, mini_batch_Y)
@@ -162,6 +169,7 @@ def random_mini_batches(X, Y, mini_batch_size = 64, seed = 0):
     
     return mini_batches
 
+# do a one-hot encoding of a category vector
 def convert_to_one_hot(Y, C):
     Y = np.eye(C)[Y.reshape(-1)].T
     return Y
@@ -221,3 +229,11 @@ def predict(X, parameters):
         
     return prediction
 
+# quick info: https://stackoverflow.com/questions/35336648/list-of-tensor-names-in-graph-in-tensorflow
+# function to get names of Tensors in a graph (defaults to default graph):
+def get_names(graph=tf.get_default_graph()):
+    return [t.name for op in graph.get_operations() for t in op.values()]
+
+# Function to get Tensors in a graph (defaults to default graph):
+def get_tensors(graph=tf.get_default_graph()):
+    return [t for op in graph.get_operations() for t in op.values()]
