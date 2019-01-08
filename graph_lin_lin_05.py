@@ -18,22 +18,22 @@ import h5py
 # Change random seed and sample number accordingly
 ########################################################
 # generate Training Data init
-#fhdf5 = h5py.File('GraphTrainData.hdf5', 'w')
-#ghdf5 = h5py.File('GraphTrainIds.hdf5', 'w')
-#myfile="GraphAIrun.csv"
-#mypoints="GraphAIpnt.csv"
-#rnd.seed(2018) #training
-#N=20000 # number of graph images
+fhdf5 = h5py.File('GraphTrainData_LIN.hdf5', 'w')
+ghdf5 = h5py.File('GraphTrainIds_LIN.hdf5', 'w')
+myfile="GraphAIrun_LIN.csv"
+mypoints="GraphAIpnt_LIN.csv"
+rnd.seed(2018) #training
+N=2000 #N=20000 # number of graph images
 ########################################################
 
 ########################################################
 # generate Testing Data init
-fhdf5 = h5py.File('GraphTestData.hdf5', 'w')
-ghdf5 = h5py.File('GraphTestIds.hdf5', 'w')
-myfile="GraphAItest.csv"
-mypoints="GraphAIpnttest.csv"
-rnd.seed(2006) #testing
-N=100  # number of graph images
+#fhdf5 = h5py.File('GraphTestData_LIN.hdf5', 'w')
+#ghdf5 = h5py.File('GraphTestIds_LIN.hdf5', 'w')
+#myfile="GraphAItest_LIN.csv"
+#mypoints="GraphAIpnttest_LIN.csv"
+#rnd.seed(2006) #testing
+#N=100  # number of graph images
 ########################################################
 
 
@@ -194,13 +194,15 @@ for k in range(0,N):
     # that curves fit into a given standard box.
     # This standard box is assumed to be [0,10]x[-10,10].
     co=rnd.randint(1,5) 
-    #co=4 # for debugging purposes
+    co=1 # for debugging purposes
     #######################################################
     # in simple training scenarios we only want to classify
     # the graph type => "characterSimple" array
     # in a more complete approach we want to identify
     # graph type and graph parameters simultaneously => "character" array
     characterSimple=np.array([co])
+    #NNtype=0 # categorisation of graphs
+    NNtype=1 # extracting parameters from graphs
     # attention: swap characterSimple with character at EOF!
     #######################################################
 
@@ -306,7 +308,10 @@ for k in range(0,N):
     # Write complete training data
     # ghdf5.create_dataset(name_data,data=character)
     # Write simple classification training data
-    ghdf5.create_dataset(name_data,data=characterSimple)
+    if NNtype==0:
+        ghdf5.create_dataset(name_data,data=characterSimple)
+    if NNtype==1:
+        ghdf5.create_dataset(name_data,data=character)
     #plt.imshow(image_data)
     #plt.show()
     plt.clf()

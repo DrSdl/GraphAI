@@ -103,6 +103,24 @@ def load_chara_dataset(filename):
     #print(train_set)
     return train_set
 
+# load figure image function parameters from HDF5 file
+def load_chara_dataset_param(filename):
+    training_dataset = h5py.File(filename, "r")
+    train_set=[]
+    sum=0
+    for myname in training_dataset:
+        #print(myname)
+        dats=np.array([training_dataset[myname]],dtype=np.float)
+        #print(dats.shape," ",np.amin(dats)," ",np.amax(dats))
+        if sum==0:
+            train_set=dats
+            sum +=1
+        else:
+            train_set=np.concatenate((train_set,dats),axis=0)
+  
+    #print(train_set)
+    return train_set
+
 # load random samnle of figure image characterisation from HDF5 file
 # quick info: "http://docs.h5py.org/en/latest/quick.html"
 def load_chara_dataset_batch(filename, seed, macro_length):
@@ -126,6 +144,28 @@ def load_chara_dataset_batch(filename, seed, macro_length):
   
     #print(train_set)
     return train_set
+
+# load figure image function parameters from HDF5 file - batchwise
+def load_chara_dataset_param_batch(filename, seed, macro_length):
+    training_dataset = h5py.File(filename, "r")
+    liste=list(training_dataset.keys())
+    anzahl=len(liste)
+    zufall.seed(seed)
+    liste_sample=zufall.sample(liste,macro_length)
+    train_set=[]
+    sum=0
+    for myname in liste_sample:
+        dats=np.array([training_dataset[myname]],dtype=np.float)
+        if sum==0:
+            train_set=dats
+            sum +=1
+        else:
+            train_set=np.concatenate((train_set,dats),axis=0)
+  
+    #print(train_set)
+    return train_set
+
+
 
 # create mini-batches 
 # first the arrays are shuffled randomly and then packaged into batches of "mini_batch_size"
@@ -173,6 +213,13 @@ def random_mini_batches(X, Y, mini_batch_size = 64, seed = 0):
 def convert_to_one_hot(Y, C):
     Y = np.eye(C)[Y.reshape(-1)].T
     return Y
+
+# extract the target parameters of the functions from HDF5 store
+def convert_to_target(Y, C):
+    Y = Y[1:C+1,:]
+    return Y
+
+
 
 def forward_propagation_for_predict(X, parameters):
     """

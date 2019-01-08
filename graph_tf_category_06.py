@@ -3,11 +3,12 @@ import numpy as np
 import h5py
 import matplotlib.pyplot as plt
 # necessaty for pure ssh connection
-# plt.switch_backend('agg')
+# 
+plt.switch_backend('agg')
 # ----------------------------
 # ########################################################
 # 
-# Neural Network TRAINER
+# Neural Network TRAINER for categorisation
 # (c) 2019 DrSdl
 # 
 # ########################################################
@@ -56,13 +57,28 @@ def initialize_parameters():
     
     ## W1 and W2 are the "filters": filter_height, filter_width, in_channels, out_channels
 
+# model3L_01
     W1 = tf.get_variable("W1", [4, 4, 3, 8], initializer=tf.contrib.layers.xavier_initializer(seed=0))
     W2 = tf.get_variable("W2", [2, 2, 8, 16], initializer=tf.contrib.layers.xavier_initializer(seed=0))
+# model3L_02
+#    W1 = tf.get_variable("W1", [8, 8, 3, 8], initializer=tf.contrib.layers.xavier_initializer(seed=0))
+#    W2 = tf.get_variable("W2", [2, 2, 8, 16], initializer=tf.contrib.layers.xavier_initializer(seed=0))
+# model3L_03
+#    W1 = tf.get_variable("W1", [4, 4, 3, 16], initializer=tf.contrib.layers.xavier_initializer(seed=0))
+#    W2 = tf.get_variable("W2", [2, 2, 16, 16], initializer=tf.contrib.layers.xavier_initializer(seed=0))
+# model3L_04
+#    W1 = tf.get_variable("W1", [4, 4, 3, 8], initializer=tf.contrib.layers.xavier_initializer(seed=0))
+#    W2 = tf.get_variable("W2", [2, 2, 8, 32], initializer=tf.contrib.layers.xavier_initializer(seed=0))
+# model4L_01
+#    W1 = tf.get_variable("W1", [4, 4, 3, 8], initializer=tf.contrib.layers.xavier_initializer(seed=0))
+#    W2 = tf.get_variable("W2", [2, 2, 8, 16], initializer=tf.contrib.layers.xavier_initializer(seed=0))
+#    W3 = tf.get_variable("W3", [2, 2, 16, 16], initializer=tf.contrib.layers.xavier_initializer(seed=0))
+
 
     ## attention: "Id" has to be set to the number of classes we want to identify
-    parameters = {"W1": W1,
-                  "W2": W2,
-                  "Id": 6}
+    parameters = {"W1": W1, "W2": W2, "Id": 6}
+
+   # parameters = {"W1": W1, "W2": W2, "W3": W3, "Id": 6}
     
     return parameters
 
@@ -106,6 +122,57 @@ def forward_propagation_model3L_01(X, parameters):
     Z3 = tf.contrib.layers.fully_connected(P, N1, activation_fn=None) # name='Z3_tensor'
 
     return Z3
+
+# Implements a three-layer ConvNet in Tensorflow:
+# CONV2D -> RELU -> MAXPOOL -> CONV2D -> RELU -> MAXPOOL -> CONV2D -> RELU -> MAXPOOL -> FLATTEN -> FULLYCONNECTED
+def forward_propagation_model4L_01(X, parameters):
+    
+    ## Default forward propagation model:
+    ## CONV2D -> RELU -> MAXPOOL -> CONV2D -> RELU -> MAXPOOL -> CONV2D -> RELU -> MAXPOOL -> FLATTEN -> FULLYCONNECTED
+        
+    ## Inputs:
+    ## X -- input dataset placeholder, of shape (input size, number of examples)
+    ## parameters -- python dictionary containing your parameters "W1", "W2"
+    ##               the shapes are given in initialize_parameters
+
+    ## Outputs:
+    ## Z3 -- the output of the last LINEAR unit
+    ##
+    ## explanations: http://cs231n.github.io/convolutional-networks/
+    ##
+    W1 = parameters['W1']
+    W2 = parameters['W2']
+    W3 = parameters['W3']
+    N1 = parameters['Id']
+    
+    # CONV2D: stride of 1, padding 'SAME'
+    Z1 = tf.nn.conv2d(X, W1, strides=[1, 1, 1, 1], padding='SAME')
+    # RELU
+    A1 = tf.nn.relu(Z1)
+    # MAXPOOL: window 8x8, stride 8, padding 'SAME'
+    P1 = tf.nn.max_pool(A1, ksize = [1, 8, 8, 1], strides = [1, 8, 8, 1], padding='SAME')
+    # CONV2D: filters W2, stride 1, padding 'SAME'
+    Z2 = tf.nn.conv2d(P1, W2, strides=[1, 1, 1, 1], padding='SAME')
+    # RELU
+    A2 = tf.nn.relu(Z2)
+    # MAXPOOL: window 4x4, stride 4, padding 'SAME'
+    P2 = tf.nn.max_pool(A2, ksize = [1, 4, 4, 1], strides = [1, 4, 4, 1], padding='SAME')
+    # CONV2D: filters W3, stride 1, padding 'SAME'
+    Z3 = tf.nn.conv2d(P2, W3, strides=[1, 1, 1, 1], padding='SAME')
+    # RELU
+    A3 = tf.nn.relu(Z3)
+    # MAXPOOL: window 4x4, stride 4, padding 'SAME'
+    P3 = tf.nn.max_pool(A3, ksize = [1, 4, 4, 1], strides = [1, 4, 4, 1], padding='SAME')
+
+
+    # FLATTEN
+    P = tf.contrib.layers.flatten(P3)
+    # FULLY-CONNECTED without non-linear activation function 
+    # 6=N1 neurons in output layer. 
+    Z4 = tf.contrib.layers.fully_connected(P, N1, activation_fn=None) # name='Z4_tensor'
+
+    return Z4
+
 
 def compute_cost(Z3, Y):
     
@@ -254,7 +321,7 @@ def model3L(X_train_name, Y_train_name, X_test, Y_test, learning_rate=0.009,
 
 # model which loads a large training data-set step by step into memory, i.e. for each minibatch
 def model3L_batchFile(X_train_name, Y_train_name, X_test, Y_test, learning_rate=0.009,
-          num_epochs=2, minibatch_size=4, print_cost=True):
+          num_epochs=400, minibatch_size=10, print_cost=True):
     
     ## uses forward_propagation_model3L_01
     
@@ -302,8 +369,9 @@ def model3L_batchFile(X_train_name, Y_train_name, X_test, Y_test, learning_rate=
     parameters = initialize_parameters()
     
     # Forward propagation: Build the forward propagation in the tensorflow graph
+    # Z3 = forward_propagation_model3L_01(X, parameters)
     Z3 = forward_propagation_model3L_01(X, parameters)
-    
+
     # Cost function: Add cost function to tensorflow graph
     cost = compute_cost(Z3, Y)
     
@@ -380,6 +448,9 @@ def model3L_batchFile(X_train_name, Y_train_name, X_test, Y_test, learning_rate=
         #print("Train Accuracy:", train_accuracy)
 
         train_accuracy = 0.0
+        # why are we able to reuse "minibatches" at this point? 
+        # because the array "minibatches" contains ALL samples from the last training session from above
+        # (in arbitrary order); the only difference from epoch to epoch is the change in sample order
         for minibatch in minibatches:
             (minibatch_X, minibatch_Y) = minibatch
             temp_accuracy = accuracy.eval({X: minibatch_X, Y: minibatch_Y})
@@ -387,7 +458,7 @@ def model3L_batchFile(X_train_name, Y_train_name, X_test, Y_test, learning_rate=
             train_accuracy += temp_accuracy / num_minibatches
 
         print("Train Accuracy:", train_accuracy)
-        save_path = saver.save(sess, "./model3L_01.ckpt")
+        save_path = saver.save(sess, "./model4L_01.ckpt")
         print("Model saved in path: %s" % save_path)
 
         minibatches_test = random_mini_batches(X_test, Y_test, minibatch_size, 2018)
@@ -407,8 +478,6 @@ def model3L_batchFile(X_train_name, Y_train_name, X_test, Y_test, learning_rate=
         return train_accuracy, test_accuracy, parameters
 
 
-
-
 #print("Loading training images")
 #X_train_orig = load_graph_dataset('GraphTrainData.hdf5')
 #print("Loading training labels")
@@ -424,9 +493,9 @@ def model3L_batchFile(X_train_name, Y_train_name, X_test, Y_test, learning_rate=
 
 # Loading the testing data and display size #########################
 print("Loading testing images")
-X_test_orig = load_graph_dataset('GraphTestData.hdf5')
+X_test_orig = load_graph_dataset('GraphTestData_simple.hdf5')
 print("Loading testing labels")
-Y_test_orig = load_chara_dataset('GraphTestIds.hdf5')
+Y_test_orig = load_chara_dataset('GraphTestIds_simple.hdf5')
 Y_test_orig = Y_test_orig.T
 
 index=4
