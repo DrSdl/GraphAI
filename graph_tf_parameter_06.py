@@ -290,7 +290,7 @@ def model3C_batchFile(X_train_name, Y_train_name, X_test, Y_test, learning_rate=
             train_accuracy += temp_accuracy / num_minibatches
 
         print("Train Accuracy:", train_accuracy)
-        save_path = saver.save(sess, "./model3C_01.ckpt")
+        save_path = saver.save(sess, "./model3C_02.ckpt")
         print("Model saved in path: %s" % save_path)
 
         minibatches_test = random_mini_batches(X_test, Y_test, minibatch_size, 2018)
@@ -310,10 +310,12 @@ def model3C_batchFile(X_train_name, Y_train_name, X_test, Y_test, learning_rate=
         return train_accuracy, test_accuracy, parameters
 
 # Loading the testing data and display size #########################
+# ATTENTION: adapt hdf5 files!
+#
 print("Loading testing images")
-X_test_orig = load_graph_dataset('GraphTestData_LIN.hdf5')
+X_test_orig = load_graph_dataset('GraphTestData_QUA_simple.hdf5')
 print("Loading testing labels")
-Y_test_orig = load_chara_dataset_param('GraphTestIds_LIN.hdf5')
+Y_test_orig = load_chara_dataset_param('GraphTestIds_QUA_simple.hdf5')
 Y_test_orig = Y_test_orig.T
 
 index=4
@@ -326,7 +328,9 @@ print(type(Y_test_orig)," ",Y_test_orig.shape)
 
 
 # Number of parameters to be trained
-NumParameters=2  # LIN
+#NumParameters=2  # LIN
+NumParameters=3  # QUA
+#NumParameters=4  # CUB
 
 X_test = X_test_orig/255.
 Y_test = convert_to_target(Y_test_orig, NumParameters).T
@@ -340,7 +344,12 @@ X, Y = create_placeholders(480, 640, 3, NumParameters)
 tf.reset_default_graph()
 
 # start network optimisation --------------------------------------------------
-_, _, parameters = model3C_batchFile('GraphTrainData_LIN.hdf5', 'GraphTrainIds_LIN.hdf5', X_test, Y_test, num_epochs=100, minibatch_size=4, NumParameters=NumParameters)
+# ATTENTION: changge hd5-files above for TRAINING set
+# ATTENTION: change model03C name!x
+_, _, parameters = model3C_batchFile('GraphTrainData_QUA.hdf5', 'GraphTrainIds_QUA.hdf5', X_test, Y_test, num_epochs=2000, minibatch_size=10, NumParameters=NumParameters)
+
+#_, _, parameters = model3C_batchFile('GraphTrainData_CUB.hdf5', 'GraphTrainIds_CUB.hdf5', X_test, Y_test, num_epochs=2000, minibatch_size=10, NumParameters=NumParameters)
+
 
 # print graph operations
 #for i in tf.get_default_graph().get_operations():
