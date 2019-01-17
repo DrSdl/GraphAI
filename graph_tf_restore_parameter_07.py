@@ -4,7 +4,8 @@ import h5py
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix
 # necessaty for pure ssh connection
-# plt.switch_backend('agg')
+# 
+plt.switch_backend('agg')
 # ----------------------------
 # ########################################################
 # 
@@ -121,14 +122,34 @@ def load_chara_dataset_param_small(filename, cnt, macro_length):
 # number of batches simultaneously loaded into memory
 m_macro=4
 
-X_train_name = 'GraphTestData_LIN.hdf5'
-Y_train_name = 'GraphTestIds_LIN.hdf5'
+#X_train_name = 'GraphTestData_LIN.hdf5'
+#Y_train_name = 'GraphTestIds_LIN.hdf5'
+
+#X_train_name = 'GraphTestData_QUA.hdf5'
+#Y_train_name = 'GraphTestIds_QUA.hdf5'
+
+#X_train_name = 'GraphTestData_CUB.hdf5'
+#Y_train_name = 'GraphTestIds_CUB.hdf5'
+
+X_train_name = 'GraphTestData_EXP.hdf5'
+Y_train_name = 'GraphTestIds_EXP.hdf5'
+
+#X_train_name = 'GraphTestData_LOG.hdf5'
+#Y_train_name = 'GraphTestIds_LOG.hdf5'
+
+
+
 Nm=GetTrainSamples(Y_train_name);
 print("magnitude of test set: ",Nm)
 
 # ATTENTION: update parameters depending on LIN, QUAD etc. case
 # Number of parameters to be trained
-NumParameters=2
+
+#NumParameters=2 # LIN
+#NumParameters=3 # QUA
+#NumParameters=4 # CUB
+NumParameters=3 # EXP
+#NumParameters=2 # EXP
 
 tf.reset_default_graph()
 
@@ -137,8 +158,10 @@ correct=[]
 
 with tf.Session() as sess:
     # restore trained model
-    new_saver = tf.train.import_meta_graph('./model3C_01.ckpt.meta')
-    new_saver.restore(sess, tf.train.latest_checkpoint('./'))
+    # ATTENTION:                                     |||
+    new_saver = tf.train.import_meta_graph('/home/drsdl/GraphAI/model3C_04/model3C_04.ckpt.meta')
+    new_saver.restore(sess, tf.train.latest_checkpoint('/home/drsdl/GraphAI/model3C_04/'))
+
     # get graph
     saved_graph = tf.get_default_graph()
 
@@ -175,7 +198,7 @@ with tf.Session() as sess:
         Y_test_orig = Y_test_orig.T
         X_test = X_test_orig/255.
         Y_test = convert_to_target(Y_test_orig, NumParameters).T
-
+        
         # ##########################################################################
         # the TF "path" to "accuracy" lets us compare predictions with expected values
         temp_accuracy = accuracy.eval({X: X_test, Y: Y_test})
@@ -197,42 +220,126 @@ with tf.Session() as sess:
     print("Test Accuracy - root mean square error of parameter difference: ", test_accuracy)
 
 
-debugg=1
-# plot parameter prediction performance ------------------------------------------------
-plt.subplot(211)
-plt.plot(predict[:,0])   # Parameter 1 prediction
-plt.plot(correct[:,0])   # Parameter 1 correct value
-plt.subplot(212)
-plt.plot(predict[:,1])   # Parameter 2 prediction
-plt.plot(correct[:,1])   # Parameter 2 correct value
+debugg=0
+if NumParameters == 2:
+    # plot parameter prediction performance 
+    plt.subplot(211)
+    plt.plot(predict[:,0])   # Parameter 1 prediction
+    plt.plot(correct[:,0])   # Parameter 1 correct value
+    plt.subplot(212)
+    plt.plot(predict[:,1])   # Parameter 2 prediction
+    plt.plot(correct[:,1])   # Parameter 2 correct value
+
+
+if NumParameters == 3:
+    # plot parameter prediction performance
+    plt.subplot(311)
+    plt.plot(predict[:,0])   # Parameter 1 prediction
+    plt.plot(correct[:,0])   # Parameter 1 correct value
+    plt.subplot(312)
+    plt.plot(predict[:,1])   # Parameter 2 prediction
+    plt.plot(correct[:,1])   # Parameter 2 correct value
+    plt.subplot(313)
+    plt.plot(predict[:,2])   # Parameter 3 prediction
+    plt.plot(correct[:,2])   # Parameter 3 correct value
+
+if NumParameters == 4:
+    # plot parameter prediction performance
+    plt.subplot(411)
+    plt.plot(predict[:,0])   # Parameter 1 prediction
+    plt.plot(correct[:,0])   # Parameter 1 correct value
+    plt.subplot(412)
+    plt.plot(predict[:,1])   # Parameter 2 prediction
+    plt.plot(correct[:,1])   # Parameter 2 correct value
+    plt.subplot(413)
+    plt.plot(predict[:,2])   # Parameter 3 prediction
+    plt.plot(correct[:,2])   # Parameter 3 correct value
+    plt.subplot(414)
+    plt.plot(predict[:,3])   # Parameter 4 prediction
+    plt.plot(correct[:,3])   # Parameter 4 correct value
+
+
+
+
 
 if debugg==1:
     plt.show()
 else:
-    plt.savefig('graphAI_LIN_parameter_100119.fig1.jpeg')
+    plt.savefig('graphAI_EXP_parameter_100119.fig1.jpeg')
     plt.clf()
 
 # plot parameter prediction performance histogram ---------------------------------------
 # https://stackoverflow.com/questions/36470343/how-to-draw-a-line-with-matplotlib/36479941
-plt.subplot(121)
-plt.xlim(-10,10)
-plt.ylim(-10,10)
-x1=[-10,+10]
-y1=[-10,+10]
-x2=[0,+10]
-y2=[0,+10]
+if NumParameters == 2:
+    plt.subplot(121)
+    plt.xlim(-10,10)
+    plt.ylim(-10,10)
+    x1=[-10,+10]
+    y1=[-10,+10]
+    x2=[0,+10]
+    y2=[0,+10]
 
-plt.scatter(correct[:,0], predict[:,0])  # correct value versus predict value scatter plot
-plt.plot(x1,y1, color='black')
-plt.subplot(122)
-plt.scatter(correct[:,1], predict[:,1])
-plt.plot(x2,y2, color='black')
+    plt.scatter(correct[:,0], predict[:,0])  # correct value versus predict value scatter plot
+    plt.plot(x1,y1, color='black')
+    plt.subplot(122)
+    plt.scatter(correct[:,1], predict[:,1])
+    plt.plot(x2,y2, color='black')
+
+if NumParameters == 3:
+    plt.subplot(221)
+    plt.xlim(0,10)
+    plt.ylim(0,10)
+    x1=[0,+10]
+    y1=[0,+10]
+    x2=[0,+10]
+    y2=[0,+10]
+    x3=[-10,+10]
+    y3=[-10,+10]
+ 
+    plt.scatter(correct[:,0], predict[:,0])  
+    plt.plot(x1,y1, color='black')
+    plt.subplot(222)
+    plt.scatter(correct[:,1], predict[:,1])
+    plt.plot(x2,y2, color='black')
+    plt.subplot(223)
+    plt.scatter(correct[:,2], predict[:,2])
+    plt.plot(x3,y3, color='black')
+
+if NumParameters == 4:
+    plt.subplot(221)
+    plt.xlim(0,10)
+    plt.ylim(0,10)
+    x1=[-10,+10]
+    y1=[-10,+10]
+    x2=[0,+10]
+    y2=[0,+10]
+    x3=[-10,+10]
+    y3=[-10,+10]
+    x4=[-5,+5]
+    y4=[-5,+5]
+
+    plt.scatter(correct[:,0], predict[:,0])
+    plt.plot(x1,y1, color='black')
+    plt.subplot(222)
+    plt.scatter(correct[:,1], predict[:,1])
+    plt.plot(x2,y2, color='black')
+    plt.subplot(223)
+    plt.scatter(correct[:,2], predict[:,2])
+    plt.plot(x3,y3, color='black')
+    plt.subplot(224)
+    plt.scatter(correct[:,3], predict[:,3])
+    plt.plot(x4,y4, color='black')
+
+
 
 if debugg==1:
     plt.show()
 else:
-    plt.savefig('graphAI_LIN_parameter_100119.fig2.jpeg')
+    plt.savefig('graphAI_EXP_parameter_100119.fig2.jpeg')
     plt.clf()
+
+
+
 
 # #####################################################
 # original output of stored graphs names:
