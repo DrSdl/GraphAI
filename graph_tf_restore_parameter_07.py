@@ -285,7 +285,7 @@ if NumParameters == 2:
     plt.scatter(correct[:,1], predict[:,1])
     plt.plot(x2,y2, color='black')
 
-if NumParameters == 3:
+if NumParameters == 3 and 'EXP' not in X_train_name:
     plt.subplot(221)
     plt.xlim(0,10)
     plt.ylim(0,10)
@@ -304,6 +304,54 @@ if NumParameters == 3:
     plt.subplot(223)
     plt.scatter(correct[:,2], predict[:,2])
     plt.plot(x3,y3, color='black')
+
+if NumParameters == 3 and 'EXP' in X_train_name:
+    plt.subplot(221)
+    plt.xlim(-0.6,0.6)
+    plt.ylim(-0.6,0.6)
+    x1=[-0.6,+0.6]
+    y1=[-0.6,+0.6]
+    x2=[-1,+1]
+    y2=[-1,+1]
+    x3=[-5,+5]
+    y3=[-5,+5]
+
+    plt.scatter(correct[:,0], predict[:,0])
+    plt.plot(x1,y1, color='black')
+    plt.subplot(222)
+    plt.scatter(correct[:,1], predict[:,1])
+    plt.plot(x2,y2, color='black')
+    plt.subplot(223)
+    plt.scatter(correct[:,2], predict[:,2])
+    plt.plot(x3,y3, color='black')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 if NumParameters == 4:
     plt.subplot(221)
