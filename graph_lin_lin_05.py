@@ -1,11 +1,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
 # necessaty for pure ssh connection
-#plt.switch_backend('agg')
+#
+plt.switch_backend('agg')
 # ########################################################
 # 
 # GENERATOR for all the training and testing graphs
 # 12052018: added experimental data point plotting
+# 20012019: added write routine for OpenCV training
 # (c) 2019 DrSdl
 # 
 # ########################################################
@@ -18,22 +20,38 @@ import h5py
 # Change random seed and sample number accordingly
 ########################################################
 # generate Training Data init
-fhdf5 = h5py.File('GraphTrainData_LIN.hdf5', 'w')
-ghdf5 = h5py.File('GraphTrainIds_LIN.hdf5', 'w')
-myfile="GraphAIrun_LIN.csv"
-mypoints="GraphAIpnt_LIN.csv"
-rnd.seed(2018) #training
-N=2000 #N=20000 # number of graph images
+#fhdf5 = h5py.File('GraphTrainData_LIN.hdf5', 'w')
+#ghdf5 = h5py.File('GraphTrainIds_LIN.hdf5', 'w')
+#myfile="GraphAIrun_LIN.csv"
+#mypoints="GraphAIpnt_LIN.csv"
+#rnd.seed(2018) #training
+#N=20000 #N=20000 # number of graph images
 ########################################################
 
 ########################################################
 # generate Testing Data init
-#fhdf5 = h5py.File('GraphTestData_LIN.hdf5', 'w')
-#ghdf5 = h5py.File('GraphTestIds_LIN.hdf5', 'w')
-#myfile="GraphAItest_LIN.csv"
-#mypoints="GraphAIpnttest_LIN.csv"
-#rnd.seed(2006) #testing
-#N=100  # number of graph images
+
+# 100
+fhdf5 = h5py.File('GraphTestData_ALL_pts_simple.hdf5', 'w')
+ghdf5 = h5py.File('GraphTestIds_ALL_pts_simple.hdf5', 'w')
+myfile="GraphAItest_ALL_pts_simple.csv"
+mypoints="GraphAIpnttest_ALL_pts_simple.csv"
+
+# 2000
+#fhdf5 = h5py.File('GraphTestData_ALL_pts.hdf5', 'w')
+#ghdf5 = h5py.File('GraphTestIds_ALL_pts.hdf5', 'w')
+#myfile="GraphAItest_ALL_pts.csv"
+#mypoints="GraphAIpnttest_ALL_pts.csv"
+
+# 20000
+#fhdf5 = h5py.File('GraphTrainData_ALL_pts.hdf5', 'w')
+#ghdf5 = h5py.File('GraphTrainIds_ALL_pts.hdf5', 'w')
+#myfile="GraphAItrain_ALL_pts.csv"
+#mypoints="GraphAIpnttrain_ALL_pts.csv"
+
+#
+rnd.seed(2006) #testing
+N=100 #N=100, 2000, 20000  # number of graph images
 ########################################################
 
 
@@ -139,20 +157,39 @@ def AppendData(myname,id,co,a,b,c,d):
 # write file with experimental data points
 # the data for experimental points consists of:
 ##################################################
-def AppendPoints(myname, xline, yline):
+def AppendPoints(myname, xline, yline, fname):
     my_file = Path('./%s' % myname)
+    # convert graph position into pixel position
+    # and only print points which fall into the graph boundary
+    X1=0.0
+    Y1=-10.0
+    X2=10.0
+    Y2=10.0
+    #
     if my_file.is_file():
         f = open('./%s' % myname, 'a')
-        f.write(str(xline))
-        f.write("\n")
-        f.write(str(yline))
-        f.write("\n")
     else:
         f = open('./%s' % myname, 'w')
-        f.write(str(xline))
-        f.write("\n")
-        f.write(str(yline))
-        f.write("\n")
+
+    n=len(xline)
+    f.write(fname+ ' ')
+    #
+    sum=0
+    # count visible number of points
+    for i in range(n):
+        if xline[i]>X1 and xline[i]<X2 and yline[i]>Y1 and yline[i]<Y2:
+            sum +=1
+    #
+    f.write(str(sum)+ ' ')
+    #
+    # experimental points are usually 10x10 ; we go back (-5,-5) and assume a 20x20 frame for training
+    for i in range(n):
+        if xline[i]>X1 and xline[i]<X2 and yline[i]>Y1 and yline[i]<Y2:
+            # the specific numbers used correspond to the pixel corner positions of the image
+            f.write(str(int(xline[i]*(575.0-80.0)/10.0+80.0 - 5))+ ' '+ str(int(-1.0*yline[i]*(428.0-60.0)/20.0+(428.0+60.0)*0.5 - 5))+ ' 20 20 ' )  
+    #
+    f.write("\n")
+    #f.write(str(xline)+ '\n')
     f.close()
 
   
@@ -194,7 +231,7 @@ for k in range(0,N):
     # that curves fit into a given standard box.
     # This standard box is assumed to be [0,10]x[-10,10].
     co=rnd.randint(1,5) 
-    co=1 # for debugging purposes
+    #co=1 # for debugging purposes
     #######################################################
     # in simple training scenarios we only want to classify
     # the graph type => "characterSimple" array
@@ -205,6 +242,8 @@ for k in range(0,N):
     NNtype=1 # extracting parameters from graphs
     # attention: swap characterSimple with character at EOF!
     #######################################################
+
+    funame = 'graphAI_' + str(k) +'.jpg'
 
     if co==1:
         a=rnd.uniform(-10,10)
@@ -218,7 +257,7 @@ for k in range(0,N):
             Nxlocat=10.0*np.random.sample(Npoints)
             Nylocat=flin(Nxlocat,a,c) + np.random.normal(0,2,Npoints)
             plt.plot(Nxlocat, Nylocat, rnd.sample(style,1)[0])
-            AppendPoints(mypoints,Nxlocat,Nylocat)
+            AppendPoints(mypoints,Nxlocat,Nylocat,funame)
     elif co==2:
         a=rnd.uniform(0,+10)
         b=rnd.uniform(-10,a-1)
@@ -235,7 +274,7 @@ for k in range(0,N):
             Nxlocat=10.0*np.random.sample(Npoints)
             Nylocat=fquad(Nxlocat,a,b,c) + np.random.normal(0,2,Npoints)
             plt.plot(Nxlocat, Nylocat, rnd.sample(style,1)[0])
-            AppendPoints(mypoints,Nxlocat,Nylocat)
+            AppendPoints(mypoints,Nxlocat,Nylocat,funame)
     elif co==3:
         a=rnd.uniform(0,+10)
         b=rnd.uniform(-1,a)
@@ -255,7 +294,7 @@ for k in range(0,N):
             Nxlocat=10.0*np.random.sample(Npoints)
             Nylocat=fcubic(Nxlocat,a,b,c,d) + np.random.normal(0,2,Npoints)
             plt.plot(Nxlocat, Nylocat, rnd.sample(style,1)[0])
-            AppendPoints(mypoints,Nxlocat,Nylocat)
+            AppendPoints(mypoints,Nxlocat,Nylocat,funame)
     elif co==4:
         a=rnd.uniform(-0.5,0.5)
         b=rnd.uniform(-1.0,1.0)
@@ -273,7 +312,7 @@ for k in range(0,N):
             Nxlocat=10.0*np.random.sample(Npoints)
             Nylocat=fexp(Nxlocat,a,b,c) + np.random.normal(0,2,Npoints)
             plt.plot(Nxlocat, Nylocat, rnd.sample(style,1)[0])
-            AppendPoints(mypoints,Nxlocat,Nylocat)
+            AppendPoints(mypoints,Nxlocat,Nylocat,funame)
     elif co==5:
         a=rnd.uniform(-5,5)
         c=rnd.uniform(-5,5)
@@ -287,10 +326,11 @@ for k in range(0,N):
             Nxlocat=10.0*np.random.sample(Npoints)
             Nylocat=flog(Nxlocat,a,c) + np.random.normal(0,2,Npoints)
             plt.plot(Nxlocat, Nylocat, rnd.sample(style,1)[0])
-            AppendPoints(mypoints,Nxlocat,Nylocat)
+            AppendPoints(mypoints,Nxlocat,Nylocat,funame)
 
     # plt.show()
-    # plt.savefig('lin' + str(k) +'.jpg') # for debugging purposes save figure
+    # 
+    plt.savefig(funame) # for debugging purposes save figure
     # see: https://stackoverflow.com/questions/7821518/matplotlib-save-plot-to-numpy-array
     #      https://matplotlib.org/examples/pylab_examples/agg_buffer.html
     #      https://media.readthedocs.org/pdf/h5py/latest/h5py.pdf
